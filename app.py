@@ -3,9 +3,14 @@ import pandas as pd
 import folium
 from streamlit_folium import st_folium
 
-# Load dataset
-file_path = '/content/df_cluster.xlsx'  # Ubah sesuai dengan lokasi file Anda
-df = pd.read_excel(file_path)
+# Load dataset menggunakan file uploader
+uploaded_file = st.sidebar.file_uploader("Unggah file Excel", type=["xlsx"])
+if uploaded_file is not None:
+    df = pd.read_excel(uploaded_file)
+else:
+    st.warning("Silakan unggah file Excel untuk melihat data.")
+    st.stop()
+
 
 # Warna untuk cluster
 cluster_colors = {0: 'blue', 1: 'green', 2: 'red'}
