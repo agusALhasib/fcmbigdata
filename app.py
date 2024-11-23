@@ -53,9 +53,9 @@ st.markdown(
     """
     Aplikasi ini menampilkan visualisasi peta interaktif dari tim sepak bola berdasarkan cluster performa.
     Warna marker:
-    - **Blue**: Performa rendah
+    - **Blue**: Performa terbaik
     - **Green**: Performa sedang
-    - **Red**: Performa tinggi
+    - **Red**: Performa buruk
     """
 )
 
