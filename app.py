@@ -28,7 +28,7 @@ df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
 # Hilangkan baris dengan nilai NaN di latitude atau longitude
 df.dropna(subset=['latitude', 'longitude'], inplace=True)
 
-# Warna untuk cluster
+# Warna untuk cluster dan deskripsi
 cluster_colors = {0: 'blue', 1: 'green', 2: 'red'}
 cluster_descriptions = {
     0: "Performa terbaik",
@@ -36,16 +36,19 @@ cluster_descriptions = {
     2: "Performa buruk"
 }
 
-# Sidebar filter
+# Tambahkan kolom deskripsi cluster ke DataFrame
+df['cluster_description'] = df['cluster'].map(cluster_descriptions)
+
+# Sidebar filter menggunakan deskripsi cluster
 st.sidebar.title("Filter")
-selected_cluster = st.sidebar.multiselect(
+selected_cluster_descriptions = st.sidebar.multiselect(
     "Pilih Cluster", 
-    options=df['cluster'].unique(), 
-    default=df['cluster'].unique()
+    options=df['cluster_description'].unique(), 
+    default=df['cluster_description'].unique()
 )
 
-# Filter data berdasarkan cluster yang dipilih
-filtered_df = df[df['cluster'].isin(selected_cluster)]
+# Filter data berdasarkan deskripsi cluster yang dipilih
+filtered_df = df[df['cluster_description'].isin(selected_cluster_descriptions)]
 
 # Header aplikasi
 st.title("Visualisasi Cluster Performa Tim Sepak Bola")
@@ -71,7 +74,7 @@ if not filtered_df.empty:
             color = cluster_colors.get(cluster, 'gray')
             popup_text = (
                 f"<b>Team:</b> {row['team']}<br>"
-                f"<b>Cluster:</b> <span style='color:{color};'>Cluster {cluster}</span><br>"
+                f"<b>Cluster:</b> <span style='color:{color};'>{cluster_descriptions[cluster]}</span><br>"
                 f"<b>Latitude:</b> {row['latitude']}<br>"
                 f"<b>Longitude:</b> {row['longitude']}"
             )
@@ -93,4 +96,4 @@ else:
 
 # Tabel data
 st.subheader("Detail Data Tim Sepak Bola")
-st.dataframe(filtered_df[['team', 'latitude', 'longitude', 'cluster']])
+st.dataframe(filtered_df[['team', 'latitude', 'longitude', 'cluster_description']])
