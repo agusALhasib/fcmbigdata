@@ -31,9 +31,9 @@ df.dropna(subset=['latitude', 'longitude'], inplace=True)
 # Warna untuk cluster
 cluster_colors = {0: 'blue', 1: 'green', 2: 'red'}
 cluster_descriptions = {
-    0: "Performa buruk",
+    0: "Performa terbaik",
     1: "Performa sedang",
-    2: "Performa baik"
+    2: "Performa buruk"
 }
 
 # Sidebar filter
